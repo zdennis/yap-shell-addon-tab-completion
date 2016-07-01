@@ -75,7 +75,7 @@ module YapShellAddonTabCompletion
       @display_procs = DISPLAY_PROCS.dup
 
       editor.on_word_complete do |event|
-        debug_log "on_word_complete event: #{event}"
+        logger.puts "on_word_complete event: #{event}"
 
         sub_word = event[:payload][:sub_word]
         word = event[:payload][:word]
@@ -106,7 +106,7 @@ module YapShellAddonTabCompletion
       end
 
       editor.on_word_complete_no_match do |event|
-        debug_log "on_word_complete_no_match event: #{event}"
+        logger.puts "on_word_complete_no_match event: #{event}"
 
         sub_word = event[:payload][:sub_word]
         word = event[:payload][:word]
@@ -115,7 +115,7 @@ module YapShellAddonTabCompletion
       end
 
       editor.on_word_complete_done do |event|
-        debug_log "on_word_complete_done event: #{event}"
+        logger.puts "on_word_complete_done event: #{event}"
 
         # TODO: add a better way to clear content
         editor.content_box.children = []
@@ -124,18 +124,18 @@ module YapShellAddonTabCompletion
 
     def add_completion(name, pattern, &blk)
       raise ArgumentError, "Must supply block!" unless block_given?
-      debug_log "NO-OP add_completion for name=#{name.inspect} pattern=#{pattern.inspect} block?=#{block_given?}"
+      logger.puts "NO-OP add_completion for name=#{name.inspect} pattern=#{pattern.inspect} block?=#{block_given?}"
       # @completions.push CustomCompletion.new(name:name, pattern:pattern, world:world, &blk)
     end
 
     def set_decoration(type, &blk)
       raise ArgumentError, "Must supply block!" unless block_given?
-      debug_log "set_decoration for type=#{name.inspect}"
+      logger.puts "set_decoration for type=#{name.inspect}"
       @style_procs[type] = blk
     end
 
     def complete(word, words, word_index)
-      debug_log "complete word=#{word.inspect} words=#{words.inspect} word_index=#{word_index.inspect}"
+      logger.puts "complete word=#{word.inspect} words=#{words.inspect} word_index=#{word_index.inspect}"
 
       matches = @completions.sort_by(&:priority).reverse.map do |completion|
         if completion.respond_to?(:call)
@@ -151,7 +151,7 @@ module YapShellAddonTabCompletion
         end
       end.flatten
 
-      debug_log "complete possible matches are #{matches.inspect}"
+      logger.puts "complete possible matches are #{matches.inspect}"
       matches
     end
 
