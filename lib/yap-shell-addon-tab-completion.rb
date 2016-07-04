@@ -1,6 +1,5 @@
 require 'yap/addon'
 require 'yap-shell-addon-tab-completion/basic_completion'
-require 'yap-shell-addon-tab-completion/completer'
 require 'yap-shell-addon-tab-completion/completion_result'
 require 'yap-shell-addon-tab-completion/custom_completion'
 require 'yap-shell-addon-tab-completion/dsl_methods'
